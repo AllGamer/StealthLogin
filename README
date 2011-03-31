@@ -1,0 +1,11 @@
+StealthLogin is a plugin that allows Administrators of craftbukkit servers or anyone with the permissions node for that matter to login without being seen.
+
+It has only one known conflict, MCMA. Just disable welcome messages in the MCMA configuration to resolve this issue
+
+The permissions node to make this work is
+
+    stealthlogin.quiet
+
+This also works if you have the permission node *, so be careful.
+
+The plugin can be downloaded here http://jenkins.craftrepo.com/job/StealthLogin/3/artifact/StealthLogin.jar (wget), and will work with craftbukkit 580+.
