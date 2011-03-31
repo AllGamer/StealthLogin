@@ -1,5 +1,5 @@
 name: StealthLogin
 
-main: AllGamer.StealthLogin
+main: com.craftrepo.StealthLogin.StealthLogin
 
 version: 0.1
