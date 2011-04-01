@@ -3,6 +3,8 @@ package net.craftrepo.StealthLogin;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event.Priority;
 import org.bukkit.event.Event;
@@ -88,5 +90,59 @@ public class StealthLogin extends JavaPlugin
     {
         debugees.put(player, value);
     }
+    
+	public String getPlayers() 
+	{
+		Player[] players = getServer().getOnlinePlayers();
+		String playerNames = "";
+		for (Player p1 : players) 
+		{
+			if (playerNames.equals("")) 
+			{
+				playerNames += p1.getDisplayName().toLowerCase();
+			} 
+			else 
+			{
+				playerNames += "," + p1.getDisplayName();
+			}
+		}
+		return playerNames;
+	}
+    
+    public boolean onCommand(CommandSender sender, Command commandArg, String commandLabel, String[] arg) 
+	{
+		Player player = (Player) sender;
+		String command = commandArg.getName().toLowerCase();
+		String response = "";
+		if (command.equalsIgnoreCase("logincheck")) 
+		{
+			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 
+			{
+				for (Player p : getServer().getOnlinePlayers())
+				{
+					if (StealthLogin.Permissions.has(p, "stealthlogin.join"))
+					{
+						response += p.toString() + " ";
+					}
+				}
+				player.sendMessage(logPrefix + " the following users have logins hidden" + response);
+			}
+		}
+		if (command.equalsIgnoreCase("logoutcheck")) 
+		{
+			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 
+			{
+				for (Player p : getServer().getOnlinePlayers())
+				{
+					if (StealthLogin.Permissions.has(p, "stealthlogin.part"))
+					{
+						response += p.toString() + " ";
+					}
+				}
+				player.sendMessage(logPrefix + " the following users have quits hidden" + response);
+			}
+		}
+    	return true;
+	}
 }
 
