@@ -1,4 +1,4 @@
-package com.craftrepo.StealthLogin;
+package net.craftrepo.StealthLogin;
 
 import java.util.HashMap;
 import java.util.logging.Logger;
@@ -34,7 +34,6 @@ public class StealthLogin extends JavaPlugin
 
     public void onEnable() 
     {
-        @SuppressWarnings("unused")
 		PluginManager pm = getServer().getPluginManager();
 		setupPermissions();
 		registerListeners();
