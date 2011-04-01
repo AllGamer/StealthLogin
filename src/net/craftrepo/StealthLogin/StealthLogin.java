@@ -126,6 +126,7 @@ public class StealthLogin extends JavaPlugin
 					}
 				}
 				player.sendMessage(logPrefix + " the following users have logins hidden" + response);
+				response = "";
 			}
 		}
 		if (command.equalsIgnoreCase("logoutcheck")) 
@@ -140,6 +141,7 @@ public class StealthLogin extends JavaPlugin
 					}
 				}
 				player.sendMessage(logPrefix + " the following users have quits hidden" + response);
+				response = "";
 			}
 		}
     	return true;
