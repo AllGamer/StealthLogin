@@ -5,6 +5,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
 //import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  * CraftRepo StealthLogin for Bukkit
@@ -18,10 +19,10 @@ public class StealthLoginPlayerListener extends PlayerListener
 {
     @SuppressWarnings("unused")
 	private final StealthLogin plugin;
-	private String stealthJoinMessage = null;
-	private String stealthKickMessage = null;
+	private String stealthMessage = null;
 	private String joinMessage;
 	private String kickMessage;
+	private String quitMessage;
 
     public StealthLoginPlayerListener(StealthLogin instance) 
     {
@@ -33,9 +34,8 @@ public class StealthLoginPlayerListener extends PlayerListener
 		Player player = event.getPlayer();
 		if (StealthLogin.Permissions.has(player, "stealthlogin.join") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
 		{
-			event.setJoinMessage(stealthJoinMessage);
+			event.setJoinMessage(stealthMessage);
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player + " logged in secretly!");
-			player.sendMessage(StealthLogin.logPrefix + " You have been logged in secretly!");
 		}
 		else
 		{
@@ -44,12 +44,27 @@ public class StealthLoginPlayerListener extends PlayerListener
 		}
 	}
 	
+	public void onPlayerQuit(PlayerQuitEvent event)
+	{
+		Player player = event.getPlayer();
+		if (StealthLogin.Permissions.has(player, "stealthlogin.quit") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
+		{
+			event.setQuitMessage(stealthMessage);
+			StealthLogin.log.info(StealthLogin.logPrefix + " " + player + " logged out secretly!");
+		}
+		else
+		{
+			quitMessage = event.getQuitMessage();
+			event.setQuitMessage(quitMessage);
+		}
+	}
+	
 	public void onPlayerKick(PlayerKickEvent event)
 	{
 		Player player = event.getPlayer();
 		if (StealthLogin.Permissions.has(player, "stealthlogin.kick") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
 		{
-			event.setLeaveMessage(stealthKickMessage);
+			event.setLeaveMessage(stealthMessage);
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player + " was kicked quietly!");
 		}
 		else
