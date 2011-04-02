@@ -3,3 +3,13 @@ name: StealthLogin
 main: com.craftrepo.StealthLogin.StealthLogin
 
 version: 0.1
+
+commands:
+    logincheck:
+        description: Check which online players have permissions for Logins
+        usage: |
+               /<command>
+    logoutcheck:
+        description: Check which online players have permissions for Logouts
+        usage: |
+               /<command>
