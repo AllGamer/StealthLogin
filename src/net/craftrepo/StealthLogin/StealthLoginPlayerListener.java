@@ -4,6 +4,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
+//import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
  * CraftRepo StealthLogin for Bukkit
@@ -18,9 +19,9 @@ public class StealthLoginPlayerListener extends PlayerListener
     @SuppressWarnings("unused")
 	private final StealthLogin plugin;
 	private String stealthJoinMessage = null;
-	private String stealthLeaveMessage = null;
+	private String stealthKickMessage = null;
 	private String joinMessage;
-	private String leaveMessage;
+	private String kickMessage;
 
     public StealthLoginPlayerListener(StealthLogin instance) 
     {
@@ -33,6 +34,8 @@ public class StealthLoginPlayerListener extends PlayerListener
 		if (StealthLogin.Permissions.has(player, "stealthlogin.join") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
 		{
 			event.setJoinMessage(stealthJoinMessage);
+			StealthLogin.log.info(StealthLogin.logPrefix + " " + player + " logged in secretly!");
+			player.sendMessage(StealthLogin.logPrefix + " You have been logged in secretly!");
 		}
 		else
 		{
@@ -40,18 +43,19 @@ public class StealthLoginPlayerListener extends PlayerListener
 			event.setJoinMessage(joinMessage);
 		}
 	}
+	
 	public void onPlayerKick(PlayerKickEvent event)
 	{
 		Player player = event.getPlayer();
-		if (StealthLogin.Permissions.has(player, "stealthlogin.part") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
+		if (StealthLogin.Permissions.has(player, "stealthlogin.kick") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
 		{
-			event.setLeaveMessage(stealthLeaveMessage);
-			
+			event.setLeaveMessage(stealthKickMessage);
+			StealthLogin.log.info(StealthLogin.logPrefix + " " + player + " was kicked quietly!");
 		}
 		else
 		{
-			leaveMessage = event.getLeaveMessage();
-			event.setLeaveMessage(leaveMessage);
+			kickMessage = event.getLeaveMessage();
+			event.setLeaveMessage(kickMessage);
 		}
 	}
 }

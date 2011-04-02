@@ -49,8 +49,8 @@ public class StealthLogin extends JavaPlugin
     
     public void registerListeners() 
 	{
-		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_LOGIN, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Normal, this);
 	}
     
     public void setupPermissions() 
@@ -125,26 +125,36 @@ public class StealthLogin extends JavaPlugin
 						response += p.toString() + " ";
 					}
 				}
-				player.sendMessage(logPrefix + " the following users have logins hidden" + response);
-				response = "";
+				player.sendMessage(logPrefix + " the following users have logins hidden: " + response);
+				response = "";	
+			}
+			else
+			{
+				log.info(logPrefix + " " + player + " tried to use command " + command);
+				player.sendMessage(logPrefix + " you don't have permission to use that command! This has been logged!");
 			}
 		}
-		if (command.equalsIgnoreCase("logoutcheck")) 
+		if (command.equalsIgnoreCase("kickcheck")) 
 		{
 			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 
 			{
 				for (Player p : getServer().getOnlinePlayers())
 				{
-					if (StealthLogin.Permissions.has(p, "stealthlogin.part"))
+					if (StealthLogin.Permissions.has(p, "stealthlogin.kick"))
 					{
 						response += p.toString() + " ";
 					}
 				}
-				player.sendMessage(logPrefix + " the following users have quits hidden" + response);
+				player.sendMessage(logPrefix + " the following users have quits hidden: " + response);
 				response = "";
 			}
+			else
+			{
+				log.info(logPrefix + " " + player + " tried to use command " + command);
+				player.sendMessage(logPrefix + " you don't have permission to use that command! This has been logged!");
+			}
 		}
-    	return true;
+		return true;
 	}
 }
 
