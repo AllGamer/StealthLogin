@@ -114,6 +114,34 @@ public class StealthLogin extends JavaPlugin
 		Player player = (Player) sender;
 		String command = commandArg.getName().toLowerCase();
 		String response = "";
+		if (command.equalsIgnoreCase("loginshow"))
+		{
+			if (StealthLogin.Permissions.has(player, "stealthlogin.join") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || (StealthLogin.Permissions.has(player, "*"))))
+			{
+				for (Player p : getServer().getOnlinePlayers())
+				{
+					p.sendMessage("\u00a7e" + player.getName() + " joined the game.");
+				}
+			}
+			else
+			{
+				player.sendMessage(logPrefix + " You don't have permission to use that command");
+			}
+		}
+		if (command.equalsIgnoreCase("logoutshow"))
+		{
+			if (StealthLogin.Permissions.has(player, "stealthlogin.quit") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || (StealthLogin.Permissions.has(player, "*"))))
+			{
+				for (Player p : getServer().getOnlinePlayers())
+				{
+					p.sendMessage("\u00a7e" + player.getName() + " left the game.");
+				}
+			}
+			else
+			{
+				player.sendMessage(logPrefix + " You don't have permission to use that command");
+			}
+		}
 		if (command.equalsIgnoreCase("logincheck")) 
 		{
 			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 

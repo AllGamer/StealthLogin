@@ -10,6 +10,14 @@ commands:
         usage: |
                /<command>
     kickcheck:
-        description: Check which online players have permissions for Logouts
+        description: Check which online players have permissions for Kicks
+        usage: |
+               /<command>
+    loginshow:
+        description: Show a fake login message
+        usage: |
+               /<command>
+    logoutshow:    
+        description: Show a fake logout message       
         usage: |
                /<command>
