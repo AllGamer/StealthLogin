@@ -114,7 +114,6 @@ public class StealthLogin extends JavaPlugin
 		Player player = (Player) sender;
 		String command = commandArg.getName().toLowerCase();
 		String response = "";
-		System.out.println("Command name:"+ command);
 		if (command.equalsIgnoreCase("loginshow"))
 		{
 			if (StealthLogin.Permissions.has(player, "stealthlogin.join"))
