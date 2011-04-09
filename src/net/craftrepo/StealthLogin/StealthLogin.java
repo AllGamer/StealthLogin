@@ -114,9 +114,10 @@ public class StealthLogin extends JavaPlugin
 		Player player = (Player) sender;
 		String command = commandArg.getName().toLowerCase();
 		String response = "";
+		System.out.println("Command name:"+ command);
 		if (command.equalsIgnoreCase("loginshow"))
 		{
-			if (StealthLogin.Permissions.has(player, "stealthlogin.join") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || (StealthLogin.Permissions.has(player, "*"))))
+			if (StealthLogin.Permissions.has(player, "stealthlogin.join"))
 			{
 				for (Player p : getServer().getOnlinePlayers())
 				{
@@ -130,7 +131,7 @@ public class StealthLogin extends JavaPlugin
 		}
 		if (command.equalsIgnoreCase("logoutshow"))
 		{
-			if (StealthLogin.Permissions.has(player, "stealthlogin.quit") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || (StealthLogin.Permissions.has(player, "*"))))
+			if (StealthLogin.Permissions.has(player, "stealthlogin.quit"))
 			{
 				for (Player p : getServer().getOnlinePlayers())
 				{
@@ -144,7 +145,7 @@ public class StealthLogin extends JavaPlugin
 		}
 		if (command.equalsIgnoreCase("logincheck")) 
 		{
-			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 
+			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check")) 
 			{
 				for (Player p : getServer().getOnlinePlayers())
 				{
@@ -164,7 +165,7 @@ public class StealthLogin extends JavaPlugin
 		}
 		if (command.equalsIgnoreCase("kickcheck")) 
 		{
-			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 
+			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check")) 
 			{
 				for (Player p : getServer().getOnlinePlayers())
 				{
