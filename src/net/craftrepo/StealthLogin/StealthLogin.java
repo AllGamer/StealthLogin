@@ -151,7 +151,7 @@ public class StealthLogin extends JavaPlugin
 				{
 					if (StealthLogin.Permissions.has(p, "stealthlogin.join"))
 					{
-						response += p.toString() + " ";
+						response += p.getName() + " ";
 					}
 				}
 				player.sendMessage(logPrefix + " the following users have logins hidden: " + response);
@@ -171,7 +171,7 @@ public class StealthLogin extends JavaPlugin
 				{
 					if (StealthLogin.Permissions.has(p, "stealthlogin.kick"))
 					{
-						response += p.toString() + " ";
+						response += p.getName() + " ";
 					}
 				}
 				player.sendMessage(logPrefix + " the following users have quits hidden: " + response);

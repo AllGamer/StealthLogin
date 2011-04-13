@@ -4,7 +4,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerListener;
-//import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 /**
@@ -19,7 +18,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 {
     @SuppressWarnings("unused")
 	private final StealthLogin plugin;
-	private String stealthMessage = "";
+	private String stealthMessage = null;
 	private String joinMessage;
 	private String kickMessage;
 	private String quitMessage;
@@ -35,6 +34,9 @@ public class StealthLoginPlayerListener extends PlayerListener
 		if (StealthLogin.Permissions.has(player, "stealthlogin.join"))
 		{
 			event.setJoinMessage(stealthMessage);
+			//Begin MCMA COMPAT
+			System.out.println(player + " logged in with entity id" + player.getEntityId());
+			//End MCMA COMPAT
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player.getName() + " logged in secretly!");
 		}
 		else
