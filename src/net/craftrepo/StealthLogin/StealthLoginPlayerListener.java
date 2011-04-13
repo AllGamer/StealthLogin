@@ -19,7 +19,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 {
     @SuppressWarnings("unused")
 	private final StealthLogin plugin;
-	private String stealthMessage = null;
+	private String stealthMessage = "";
 	private String joinMessage;
 	private String kickMessage;
 	private String quitMessage;
