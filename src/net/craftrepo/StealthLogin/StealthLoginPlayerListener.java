@@ -32,7 +32,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 	public void onPlayerJoin(PlayerJoinEvent event)
 	{
 		Player player = event.getPlayer();
-		if (StealthLogin.Permissions.has(player, "stealthlogin.join") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
+		if (StealthLogin.Permissions.has(player, "stealthlogin.join"))
 		{
 			event.setJoinMessage(stealthMessage);
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player.getName() + " logged in secretly!");
@@ -47,7 +47,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
 		Player player = event.getPlayer();
-		if (StealthLogin.Permissions.has(player, "stealthlogin.quit") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
+		if (StealthLogin.Permissions.has(player, "stealthlogin.quit"))
 		{
 			event.setQuitMessage(stealthMessage);
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player.getName() + " logged out secretly!");
@@ -62,7 +62,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 	public void onPlayerKick(PlayerKickEvent event)
 	{
 		Player player = event.getPlayer();
-		if (StealthLogin.Permissions.has(player, "stealthlogin.kick") || StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))
+		if (StealthLogin.Permissions.has(player, "stealthlogin.kick"))
 		{
 			event.setLeaveMessage(stealthMessage);
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player.getName() + " was kicked quietly!");
