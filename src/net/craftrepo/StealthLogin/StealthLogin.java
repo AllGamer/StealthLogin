@@ -183,42 +183,6 @@ public class StealthLogin extends JavaPlugin
 				player.sendMessage(logPrefix + " you don't have permission to use that command! This has been logged!");
 			}
 		}
-		if (command.equalsIgnoreCase("listplayers"))
-		{
-			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.list"))
-			{
-				String[] groups = StealthLogin.Permissions.getGroups(getPlayers(), null);
-				for (String g : groups)
-				{
-					player.sendMessage(g + ": ");
-					for (Player p : getServer().getOnlinePlayers())
-					{
-						String prefix = StealthLogin.Permissions.getGroupPrefix(g, p.getName());
-						String suffix = StealthLogin.Permissions.getGroupSuffix(g, p.getName());
-						player.sendMessage(prefix + p + suffix);
-					}
-				}
-			}
-			else
-			{
-				String[] groups = StealthLogin.Permissions.getGroups(getPlayers(), null);
-				for (String g : groups)
-				{
-					player.sendMessage(g + ": ");
-					for (Player p : getServer().getOnlinePlayers())
-					{
-						if (!StealthLogin.Permissions.has(p, "stealthlogin.join"))
-						{
-							response += p.getName() + " ";
-						}
-						String prefix = StealthLogin.Permissions.getGroupPrefix(g, p.getName());
-						String suffix = StealthLogin.Permissions.getGroupSuffix(g, p.getName());
-						player.sendMessage(prefix + response + suffix);
-						response = "";
-					}
-				}
-			}
-		}
 		return true;
 	}
 }
