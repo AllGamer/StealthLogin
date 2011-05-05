@@ -2,7 +2,7 @@ name: StealthLogin
 
 main: net.craftrepo.StealthLogin.StealthLogin
 
-version: 1.1.0
+version: 1.2.0
 
 commands:
     logincheck:
@@ -21,3 +21,9 @@ commands:
         description: Show a fake logout message       
         usage: |
                /<command>
+    listplayers:    
+        description: Lists players currently online
+        aliases: ['list','who']       
+        usage: |
+               /<command>
+ 
