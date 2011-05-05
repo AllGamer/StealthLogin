@@ -35,7 +35,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 		{
 			event.setJoinMessage(stealthMessage);
 			//Begin MCMA COMPAT
-			System.out.println(player + " logged in with entity id" + player.getEntityId());
+			System.out.println(player.getName() + " logged in with entity id" + player.getEntityId());
 			//End MCMA COMPAT
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player.getName() + " logged in secretly!");
 		}
