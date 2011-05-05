@@ -2,7 +2,7 @@ name: StealthLogin
 
 main: net.craftrepo.StealthLogin.StealthLogin
 
-version: 1.0.0
+version: 1.2.0
 
 commands:
     logincheck:
@@ -13,3 +13,17 @@ commands:
         description: Check which online players have permissions for Kicks
         usage: |
                /<command>
+    loginshow:
+        description: Show a fake login message
+        usage: |
+               /<command>
+    logoutshow:    
+        description: Show a fake logout message       
+        usage: |
+               /<command>
+    listplayers:    
+        description: Lists players currently online
+        aliases: ['list','who']       
+        usage: |
+               /<command>
+ 

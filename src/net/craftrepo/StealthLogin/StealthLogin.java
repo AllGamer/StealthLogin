@@ -50,6 +50,7 @@ public class StealthLogin extends JavaPlugin
     public void registerListeners() 
 	{
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
+		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Normal, this);
 	}
     
@@ -114,15 +115,43 @@ public class StealthLogin extends JavaPlugin
 		Player player = (Player) sender;
 		String command = commandArg.getName().toLowerCase();
 		String response = "";
+		if (command.equalsIgnoreCase("loginshow"))
+		{
+			if (StealthLogin.Permissions.has(player, "stealthlogin.join"))
+			{
+				for (Player p : getServer().getOnlinePlayers())
+				{
+					p.sendMessage("\u00a7e" + player.getName() + " joined the game.");
+				}
+			}
+			else
+			{
+				player.sendMessage(logPrefix + " You don't have permission to use that command");
+			}
+		}
+		if (command.equalsIgnoreCase("logoutshow"))
+		{
+			if (StealthLogin.Permissions.has(player, "stealthlogin.quit"))
+			{
+				for (Player p : getServer().getOnlinePlayers())
+				{
+					p.sendMessage("\u00a7e" + player.getName() + " left the game.");
+				}
+			}
+			else
+			{
+				player.sendMessage(logPrefix + " You don't have permission to use that command");
+			}
+		}
 		if (command.equalsIgnoreCase("logincheck")) 
 		{
-			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 
+			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check")) 
 			{
 				for (Player p : getServer().getOnlinePlayers())
 				{
 					if (StealthLogin.Permissions.has(p, "stealthlogin.join"))
 					{
-						response += p.getDisplayName() + " ";
+						response += p.getName() + " ";
 					}
 				}
 				player.sendMessage(logPrefix + " the following users have logins hidden: " + response);
@@ -136,13 +165,13 @@ public class StealthLogin extends JavaPlugin
 		}
 		if (command.equalsIgnoreCase("kickcheck")) 
 		{
-			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check") || (StealthLogin.Permissions.has(player, "stealthlogin.*") || StealthLogin.Permissions.has(player, "*"))) 
+			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check")) 
 			{
 				for (Player p : getServer().getOnlinePlayers())
 				{
 					if (StealthLogin.Permissions.has(p, "stealthlogin.kick"))
 					{
-						response += p.getDisplayName() + " ";
+						response += p.getName() + " ";
 					}
 				}
 				player.sendMessage(logPrefix + " the following users have quits hidden: " + response);
