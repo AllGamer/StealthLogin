@@ -58,16 +58,6 @@
             <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
         </unzip>
     </target>
-    <target name="jar">
-        <mkdir dir="build/jar"/>
-        <copy todir="bin">
-            <fileset dir="" includes="plugin.yml">
-                <exclude name="**/*.classpath"/>
-            </fileset>
-        </copy>
-        <jar destfile="build/jar/StealthLogin.jar" basedir="bin">
-        </jar>
-    </target>
     <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
         <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
         <antcall target="build"/>
