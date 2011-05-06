@@ -1,8 +1,14 @@
 package net.craftrepo.StealthLogin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -28,33 +34,56 @@ import com.nijikokun.bukkit.Permissions.Permissions;
 @SuppressWarnings("unused")
 public class StealthLogin extends JavaPlugin 
 {
-    private final StealthLoginPlayerListener playerListener = new StealthLoginPlayerListener(this);
-    private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
-    public final static Logger log = Logger.getLogger("Minecraft");
+	private final StealthLoginPlayerListener playerListener = new StealthLoginPlayerListener(this);
+	private final HashMap<Player, Boolean> debugees = new HashMap<Player, Boolean>();
+	public final static Logger log = Logger.getLogger("Minecraft");
 	public static String logPrefix = "[StealthLogin]";
 	public static PermissionHandler Permissions = null;
 
-    public void onEnable() 
-    {
+	public void onEnable() 
+	{
 		PluginManager pm = getServer().getPluginManager();
 		setupPermissions();
 		registerListeners();
 		log.info(logPrefix + " version " + getDescription().getVersion() + " enabled!");
-    }
-    
-    public void onDisable() 
-    {
-    	log.info(logPrefix + " version " + getDescription().getVersion() + " disabled!");
-    }
-    
-    public void registerListeners() 
+	}
+
+	public String[] getLoadedWorlds()
+	{
+		String temp = getServer().getWorlds().toString();
+		String[] result = temp.split(",");
+		return result;
+	}
+
+	public String[] getOnlineGroups(String world)
+	{
+		ArrayList<String> bob = new ArrayList<String>();
+		for (Player p : getServer().getOnlinePlayers())
+		{
+			bob.add(Permissions.getGroup(world, p.getName()));
+		}
+		Set<String> set = new HashSet<String>(bob);
+		ArrayList<String> presort = new ArrayList<String>(set);
+		Object[] sort = presort.toArray();
+		Arrays.sort(sort);
+		String sorted = Arrays.toString(sort);
+		String[] result = sorted.split(",");
+		return result;
+	}
+
+	public void onDisable() 
+	{
+		log.info(logPrefix + " version " + getDescription().getVersion() + " disabled!");
+	}
+
+	public void registerListeners() 
 	{
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_JOIN, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_QUIT, playerListener, Priority.Normal, this);
 		getServer().getPluginManager().registerEvent(Event.Type.PLAYER_KICK, playerListener, Priority.Normal, this);
 	}
-    
-    public void setupPermissions() 
+
+	public void setupPermissions() 
 	{
 		Plugin stealthlogin = this.getServer().getPluginManager().getPlugin("Permissions");
 		PluginDescriptionFile pdfFile = this.getDescription();
@@ -74,24 +103,24 @@ public class StealthLogin extends JavaPlugin
 			}
 		}
 	}
-    
-    public boolean isDebugging(final Player player) 
-    {
-        if (debugees.containsKey(player)) 
-        {
-            return debugees.get(player);
-        } 
-        else 
-        {
-            return false;
-        }
-    }
 
-    public void setDebugging(final Player player, final boolean value) 
-    {
-        debugees.put(player, value);
-    }
-    
+	public boolean isDebugging(final Player player) 
+	{
+		if (debugees.containsKey(player)) 
+		{
+			return debugees.get(player);
+		} 
+		else 
+		{
+			return false;
+		}
+	}
+
+	public void setDebugging(final Player player, final boolean value) 
+	{
+		debugees.put(player, value);
+	}
+
 	public String getPlayers() 
 	{
 		Player[] players = getServer().getOnlinePlayers();
@@ -109,8 +138,8 @@ public class StealthLogin extends JavaPlugin
 		}
 		return playerNames;
 	}
-    
-    public boolean onCommand(CommandSender sender, Command commandArg, String commandLabel, String[] arg) 
+
+	public boolean onCommand(CommandSender sender, Command commandArg, String commandLabel, String[] arg) 
 	{
 		Player player = (Player) sender;
 		String command = commandArg.getName().toLowerCase();
@@ -181,6 +210,52 @@ public class StealthLogin extends JavaPlugin
 			{
 				log.info(logPrefix + " " + player + " tried to use command " + command);
 				player.sendMessage(logPrefix + " you don't have permission to use that command! This has been logged!");
+			}
+		}
+		if (command.equalsIgnoreCase("playerlist"))
+		{
+			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check"))
+			{
+				for (String w : getLoadedWorlds())
+				{
+					player.sendMessage(w + ": ");
+					for (String g : getOnlineGroups(w))
+					{
+						player.sendMessage(g + ": ");
+						for (Player p : getServer().getOnlinePlayers())
+						{
+							String result = "";
+							if (p.getWorld().equals(w))
+							{
+								result += p.getName();
+							}
+							player.sendMessage(result);
+						}
+					}
+				}
+			}
+			else
+			{
+				for (String w : getLoadedWorlds())
+				{
+					player.sendMessage(w + ": ");
+					for (String g : getOnlineGroups(w))
+					{
+						player.sendMessage(g + ": ");
+						for (Player p : getServer().getOnlinePlayers())
+						{
+							if (!Permissions.has(p, "stealthlogin.join") && !Permissions.has(p, "stealthlogin.quit"))
+							{
+								String result = "";
+								if (p.getWorld().equals(w))
+								{
+									result += p.getName();
+								}
+								player.sendMessage(result);
+							}
+						}
+					}
+				}
 			}
 		}
 		return true;
