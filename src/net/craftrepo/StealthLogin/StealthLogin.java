@@ -221,16 +221,16 @@ public class StealthLogin extends JavaPlugin
 					player.sendMessage(w.getName() + ": ");
 					for (String g : getOnlineGroups(w.toString()))
 					{
+						String result = "";
 						for (Player p : getServer().getOnlinePlayers())
 						{
-							String result = "";
 							if (p.getWorld().equals(w))
 							{
 								result += p.getName();
 							}
-							player.sendMessage(g + ": " + result);
-							result = "";
 						}
+						player.sendMessage(g + ": " + result);
+						result = "";
 					}
 				}
 			}
@@ -241,19 +241,19 @@ public class StealthLogin extends JavaPlugin
 					player.sendMessage(w.getName() + ": ");
 					for (String g : getOnlineGroups(w.toString()))
 					{
+						String result = "";
 						for (Player p : getServer().getOnlinePlayers())
 						{
-							String result = "";
 							if (!loggedout.get(p))
 							{
 								if (p.getWorld().equals(w))
 								{
-									result += p.getName();
+									result += p.getName() + ", ";
 								}
 							}
-							player.sendMessage(g + ": " + result);
-							result = "";
 						}
+						player.sendMessage(g + ": " + result);
+						result = "";
 					}
 				}
 			}
