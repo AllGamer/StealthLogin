@@ -23,7 +23,7 @@ commands:
                /<command>
     listplayers:    
         description: Lists players currently online
-        aliases: ['list','who']       
+        aliases: ['list','who','playerlist']       
         usage: |
                /<command>
  

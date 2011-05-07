@@ -48,13 +48,6 @@ public class StealthLogin extends JavaPlugin
 		log.info(logPrefix + " version " + getDescription().getVersion() + " enabled!");
 	}
 
-	public String[] getLoadedWorlds()
-	{
-		String temp = getServer().getWorlds().toString();
-		String[] result = temp.split(",");
-		return result;
-	}
-
 	public String[] getOnlineGroups(String world)
 	{
 		ArrayList<String> bob = new ArrayList<String>();
@@ -212,14 +205,15 @@ public class StealthLogin extends JavaPlugin
 				player.sendMessage(logPrefix + " you don't have permission to use that command! This has been logged!");
 			}
 		}
-		if (command.equalsIgnoreCase("playerlist"))
+		if (command.equalsIgnoreCase("listplayers"))
 		{
+			player.sendMessage("Players online: ");
 			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check"))
 			{
-				for (String w : getLoadedWorlds())
+				for (World w : getServer().getWorlds())
 				{
-					player.sendMessage(w + ": ");
-					for (String g : getOnlineGroups(w))
+					player.sendMessage(w.getName() + ": ");
+					for (String g : getOnlineGroups(w.toString()))
 					{
 						player.sendMessage(g + ": ");
 						for (Player p : getServer().getOnlinePlayers())
@@ -236,10 +230,10 @@ public class StealthLogin extends JavaPlugin
 			}
 			else
 			{
-				for (String w : getLoadedWorlds())
+				for (World w : getServer().getWorlds())
 				{
-					player.sendMessage(w + ": ");
-					for (String g : getOnlineGroups(w))
+					player.sendMessage(w.getName() + ": ");
+					for (String g : getOnlineGroups(w.toString()))
 					{
 						player.sendMessage(g + ": ");
 						for (Player p : getServer().getOnlinePlayers())
