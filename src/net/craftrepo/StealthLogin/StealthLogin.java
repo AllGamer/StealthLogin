@@ -244,7 +244,7 @@ public class StealthLogin extends JavaPlugin
 						for (Player p : getServer().getOnlinePlayers())
 						{
 							String result = "";
-							if (!loggedout.get(player))
+							if (!loggedout.get(p))
 							{
 								if (p.getWorld().equals(w))
 								{

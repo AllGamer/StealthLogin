@@ -42,6 +42,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 		}
 		else
 		{
+			StealthLogin.loggedout.put(player, false);
 			joinMessage = event.getJoinMessage();
 			event.setJoinMessage(joinMessage);
 		}
@@ -52,7 +53,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 		Player player = event.getPlayer();
 		if (StealthLogin.Permissions.has(player, "stealthlogin.quit"))
 		{
-			if (StealthLogin.loggedout.get(player))
+			if (StealthLogin.loggedout.containsKey(player))
 			{
 				StealthLogin.loggedout.remove(player);
 			}
@@ -61,6 +62,10 @@ public class StealthLoginPlayerListener extends PlayerListener
 		}
 		else
 		{
+			if (StealthLogin.loggedout.containsKey(player))
+			{
+				StealthLogin.loggedout.remove(player);
+			}
 			quitMessage = event.getQuitMessage();
 			event.setQuitMessage(quitMessage);
 		}
