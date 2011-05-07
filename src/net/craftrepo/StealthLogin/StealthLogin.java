@@ -54,7 +54,7 @@ public class StealthLogin extends JavaPlugin
 		ArrayList<String> bob = new ArrayList<String>();
 		for (Player p : getServer().getOnlinePlayers())
 		{
-			bob.add(Permissions.getGroup(world, p.getName()));
+			bob.add(Permissions.getGroup(p.getWorld().toString(), p.getName()));
 		}
 		Set<String> set = new HashSet<String>(bob);
 		ArrayList<String> presort = new ArrayList<String>(set);
@@ -216,33 +216,33 @@ public class StealthLogin extends JavaPlugin
 			player.sendMessage("Players online: ");
 			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check"))
 			{
-				for (World w : getServer().getWorlds())
-				{
-					player.sendMessage(w.getName() + ": ");
-					for (String g : getOnlineGroups(w.toString()))
+				//for (World w : getServer().getWorlds())
+				//{
+					//player.sendMessage(w.getName() + ": ");
+					for (String g : getOnlineGroups(""))
 					{
 						String result = "";
 						for (Player p : getServer().getOnlinePlayers())
 						{
 							if (Permissions.getGroup(p.getWorld().toString(), p.getName()) == g)
 							{
-								if (p.getWorld().equals(w))
-								{
+								//if (p.getWorld().equals(w))
+								//{
 									result += p.getName();
-								}
+								//}
 							}
 						}
 						player.sendMessage(g + ": " + result);
 						result = "";
 					}
-				}
+				//}
 			}
 			else
 			{
-				for (World w : getServer().getWorlds())
-				{
-					player.sendMessage(w.getName() + ": ");
-					for (String g : getOnlineGroups(w.toString()))
+				//for (World w : getServer().getWorlds())
+				//{
+					//player.sendMessage(w.getName() + ": ");
+					for (String g : getOnlineGroups(""))
 					{
 						String result = "";
 						for (Player p : getServer().getOnlinePlayers())
@@ -251,17 +251,17 @@ public class StealthLogin extends JavaPlugin
 							{
 								if (Permissions.getGroup(p.getWorld().toString(), p.getName()) == g)
 								{
-									if (p.getWorld().equals(w))
-									{
+									//if (p.getWorld().equals(w))
+									//{
 										result += p.getName();
-									}
+									//}
 								}
 							}
 						}
 						player.sendMessage(g + ": " + result);
 						result = "";
 					}
-				}
+				//}
 			}
 		}
 		return true;
