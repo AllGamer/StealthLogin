@@ -243,22 +243,16 @@ public class StealthLogin extends JavaPlugin
 					{
 						for (Player p : getServer().getOnlinePlayers())
 						{
-							if (!Permissions.has(p, "stealthlogin.join") && !Permissions.has(p, "stealthlogin.quit"))
+							String result = "";
+							if (!loggedout.get(player))
 							{
-								if (loggedout.get(player))
+								if (p.getWorld().equals(w))
 								{
-								}
-								else
-								{
-									String result = "";
-									if (p.getWorld().equals(w))
-									{
-										result += p.getName();
-									}
-									player.sendMessage(g + ": " + result);
-									result = "";
+									result += p.getName();
 								}
 							}
+							player.sendMessage(g + ": " + result);
+							result = "";
 						}
 					}
 				}
