@@ -39,6 +39,7 @@ public class StealthLogin extends JavaPlugin
 	public final static Logger log = Logger.getLogger("Minecraft");
 	public static String logPrefix = "[StealthLogin]";
 	public static PermissionHandler Permissions = null;
+	public static HashMap<Player, Boolean> loggedout = new HashMap<Player, Boolean>();
 
 	public void onEnable() 
 	{
@@ -141,6 +142,10 @@ public class StealthLogin extends JavaPlugin
 		{
 			if (StealthLogin.Permissions.has(player, "stealthlogin.join"))
 			{
+				if (loggedout.get(player))
+				{
+					loggedout.remove(player);
+				}
 				for (Player p : getServer().getOnlinePlayers())
 				{
 					p.sendMessage("\u00a7e" + player.getName() + " joined the game.");
@@ -155,6 +160,7 @@ public class StealthLogin extends JavaPlugin
 		{
 			if (StealthLogin.Permissions.has(player, "stealthlogin.quit"))
 			{
+				loggedout.put(player, true);
 				for (Player p : getServer().getOnlinePlayers())
 				{
 					p.sendMessage("\u00a7e" + player.getName() + " left the game.");
@@ -215,7 +221,6 @@ public class StealthLogin extends JavaPlugin
 					player.sendMessage(w.getName() + ": ");
 					for (String g : getOnlineGroups(w.toString()))
 					{
-						player.sendMessage(g + ": ");
 						for (Player p : getServer().getOnlinePlayers())
 						{
 							String result = "";
@@ -223,7 +228,8 @@ public class StealthLogin extends JavaPlugin
 							{
 								result += p.getName();
 							}
-							player.sendMessage(result);
+							player.sendMessage(g + ": " + result);
+							result = "";
 						}
 					}
 				}
@@ -235,17 +241,23 @@ public class StealthLogin extends JavaPlugin
 					player.sendMessage(w.getName() + ": ");
 					for (String g : getOnlineGroups(w.toString()))
 					{
-						player.sendMessage(g + ": ");
 						for (Player p : getServer().getOnlinePlayers())
 						{
 							if (!Permissions.has(p, "stealthlogin.join") && !Permissions.has(p, "stealthlogin.quit"))
 							{
-								String result = "";
-								if (p.getWorld().equals(w))
+								if (loggedout.get(player))
 								{
-									result += p.getName();
 								}
-								player.sendMessage(result);
+								else
+								{
+									String result = "";
+									if (p.getWorld().equals(w))
+									{
+										result += p.getName();
+									}
+									player.sendMessage(g + ": " + result);
+									result = "";
+								}
 							}
 						}
 					}

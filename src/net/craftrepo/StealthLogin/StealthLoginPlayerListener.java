@@ -33,6 +33,7 @@ public class StealthLoginPlayerListener extends PlayerListener
 		Player player = event.getPlayer();
 		if (StealthLogin.Permissions.has(player, "stealthlogin.join"))
 		{
+			StealthLogin.loggedout.put(player, true);
 			event.setJoinMessage(stealthMessage);
 			//Begin MCMA COMPAT
 			System.out.println(player.getName() + " logged in with entity id" + player.getEntityId());
@@ -51,6 +52,10 @@ public class StealthLoginPlayerListener extends PlayerListener
 		Player player = event.getPlayer();
 		if (StealthLogin.Permissions.has(player, "stealthlogin.quit"))
 		{
+			if (StealthLogin.loggedout.get(player))
+			{
+				StealthLogin.loggedout.remove(player);
+			}
 			event.setQuitMessage(stealthMessage);
 			StealthLogin.log.info(StealthLogin.logPrefix + " " + player.getName() + " logged out secretly!");
 		}
