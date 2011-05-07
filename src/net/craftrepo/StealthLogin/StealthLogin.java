@@ -224,9 +224,12 @@ public class StealthLogin extends JavaPlugin
 						String result = "";
 						for (Player p : getServer().getOnlinePlayers())
 						{
-							if (p.getWorld().equals(w))
+							if (Permissions.getGroup(p.getWorld().toString(), p.getName()) == g)
 							{
-								result += p.getName();
+								if (p.getWorld().equals(w))
+								{
+									result += p.getName();
+								}
 							}
 						}
 						player.sendMessage(g + ": " + result);
@@ -246,9 +249,12 @@ public class StealthLogin extends JavaPlugin
 						{
 							if (!loggedout.get(p))
 							{
-								if (p.getWorld().equals(w))
+								if (Permissions.getGroup(p.getWorld().toString(), p.getName()) == g)
 								{
-									result += p.getName() + ", ";
+									if (p.getWorld().equals(w))
+									{
+										result += p.getName();
+									}
 								}
 							}
 						}
