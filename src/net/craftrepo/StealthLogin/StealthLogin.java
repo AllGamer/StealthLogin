@@ -46,6 +46,7 @@ public class StealthLogin extends JavaPlugin
 		PluginManager pm = getServer().getPluginManager();
 		setupPermissions();
 		registerListeners();
+		addOnlineToHashmap();
 		log.info(logPrefix + " version " + getDescription().getVersion() + " enabled!");
 	}
 
@@ -109,12 +110,27 @@ public class StealthLogin extends JavaPlugin
 			return false;
 		}
 	}
-
+	
 	public void setDebugging(final Player player, final boolean value) 
 	{
 		debugees.put(player, value);
 	}
 
+	public void addOnlineToHashmap()
+	{
+		for (Player p : getServer().getOnlinePlayers())
+		{
+			if (Permissions.has(p, "stealthlogin.join"))
+			{
+				loggedout.put(p, true);
+			}
+			else
+			{
+				loggedout.put(p, false);
+			}
+		}
+	}
+	
 	public String getPlayers() 
 	{
 		Player[] players = getServer().getOnlinePlayers();
@@ -224,7 +240,7 @@ public class StealthLogin extends JavaPlugin
 						String result = "";
 						for (Player p : getServer().getOnlinePlayers())
 						{
-							if (Permissions.getGroup(p.getWorld().toString(), p.getName()) == g)
+							if (Permissions.getGroup(p.getWorld().toString(), p.getName()).equalsIgnoreCase(g))
 							{
 								//if (p.getWorld().equals(w))
 								//{
