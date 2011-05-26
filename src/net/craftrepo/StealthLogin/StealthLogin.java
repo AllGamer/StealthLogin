@@ -50,7 +50,7 @@ public class StealthLogin extends JavaPlugin
 		log.info(logPrefix + " version " + getDescription().getVersion() + " enabled!");
 	}
 
-	public String[] getOnlineGroups(String world)
+	public String[] getOnlineGroups()
 	{
 		ArrayList<String> bob = new ArrayList<String>();
 		for (Player p : getServer().getOnlinePlayers())
@@ -110,7 +110,7 @@ public class StealthLogin extends JavaPlugin
 			return false;
 		}
 	}
-	
+
 	public void setDebugging(final Player player, final boolean value) 
 	{
 		debugees.put(player, value);
@@ -130,7 +130,7 @@ public class StealthLogin extends JavaPlugin
 			}
 		}
 	}
-	
+
 	public String getPlayers() 
 	{
 		Player[] players = getServer().getOnlinePlayers();
@@ -149,6 +149,7 @@ public class StealthLogin extends JavaPlugin
 		return playerNames;
 	}
 
+	@SuppressWarnings("null")
 	public boolean onCommand(CommandSender sender, Command commandArg, String commandLabel, String[] arg) 
 	{
 		Player player = (Player) sender;
@@ -232,52 +233,50 @@ public class StealthLogin extends JavaPlugin
 			player.sendMessage("Players online: ");
 			if (player.isOp() || StealthLogin.Permissions.has(player, "stealthlogin.check"))
 			{
-				//for (World w : getServer().getWorlds())
-				//{
-					//player.sendMessage(w.getName() + ": ");
-					for (String g : getOnlineGroups(""))
+				for (String g : getOnlineGroups())
+				{
+					String result = null;
+					for (Player p : getServer().getOnlinePlayers())
 					{
-						String result = "";
-						for (Player p : getServer().getOnlinePlayers())
+						if (Permissions.getGroup(p.getWorld().toString(), p.getName()).equalsIgnoreCase(g))
 						{
-							if (Permissions.getGroup(p.getWorld().toString(), p.getName()).equalsIgnoreCase(g))
-							{
-								//if (p.getWorld().equals(w))
-								//{
-									result += p.getName();
-								//}
-							}
+							result += p.getName();
 						}
-						player.sendMessage(g + ": " + result);
+					}
+					if (result.toString() != null)
+					{
+						player.sendMessage(g + ": " + result.toString());
 						result = "";
 					}
-				//}
+					else
+					{
+					}
+				}
 			}
 			else
 			{
-				//for (World w : getServer().getWorlds())
-				//{
-					//player.sendMessage(w.getName() + ": ");
-					for (String g : getOnlineGroups(""))
+				for (String g : getOnlineGroups())
+				{
+					String result = null;
+					for (Player p : getServer().getOnlinePlayers())
 					{
-						String result = "";
-						for (Player p : getServer().getOnlinePlayers())
+						if (!loggedout.get(p))
 						{
-							if (!loggedout.get(p))
+							if (Permissions.getGroup(p.getWorld().toString(), p.getName()) == g)
 							{
-								if (Permissions.getGroup(p.getWorld().toString(), p.getName()) == g)
-								{
-									//if (p.getWorld().equals(w))
-									//{
-										result += p.getName();
-									//}
-								}
+								result += p.getName();
 							}
 						}
-						player.sendMessage(g + ": " + result);
+					}
+					if (result.toString() != null)
+					{
+						player.sendMessage(g + ": " + result.toString());
 						result = "";
 					}
-				//}
+					else
+					{
+					}
+				}
 			}
 		}
 		return true;
